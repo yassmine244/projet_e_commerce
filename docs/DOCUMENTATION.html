@@ -1,0 +1,1273 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>MERN E-commerce — Complete Documentation</title>
+  <style>
+  @page { size: A4; margin: 18mm 16mm; }
+  :root {
+    --primary: #2563eb; --muted: #64748b; --border: #e2e8f0;
+    --bg: #f8fafc; --text: #0f172a; --code-bg: #f1f5f9;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--text);
+    line-height: 1.55;
+    font-size: 11pt;
+    margin: 0;
+  }
+  h1, h2, h3, h4, h5 {
+    color: var(--text);
+    margin-top: 1.2em;
+    margin-bottom: 0.5em;
+    page-break-after: avoid;
+  }
+  h1 {
+    font-size: 22pt;
+    border-bottom: 2px solid var(--primary);
+    padding-bottom: 0.3em;
+    margin-top: 1.4em;
+  }
+  h1:first-child { margin-top: 0; }
+  h2 {
+    font-size: 16pt;
+    color: var(--primary);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.25em;
+  }
+  h3 { font-size: 13pt; }
+  h4 { font-size: 11.5pt; }
+  p, ul, ol { margin: 0.5em 0 0.7em; }
+  ul, ol { padding-left: 1.4em; }
+  li { margin: 0.15em 0; }
+  a { color: var(--primary); text-decoration: none; }
+  blockquote {
+    margin: 0.7em 0;
+    padding: 0.5em 0.9em;
+    background: var(--bg);
+    border-left: 3px solid var(--primary);
+    color: var(--muted);
+  }
+  code {
+    font-family: "Consolas", "Courier New", monospace;
+    background: var(--code-bg);
+    color: #be185d;
+    padding: 0.1em 0.35em;
+    border-radius: 3px;
+    font-size: 0.92em;
+  }
+  pre {
+    background: #0f172a;
+    color: #e2e8f0;
+    padding: 0.85em 1em;
+    border-radius: 6px;
+    overflow-x: auto;
+    page-break-inside: avoid;
+    font-size: 9.5pt;
+    line-height: 1.45;
+  }
+  pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+    font-size: inherit;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 0.7em 0;
+    page-break-inside: avoid;
+    font-size: 10pt;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 0.45em 0.7em;
+    text-align: left;
+    vertical-align: top;
+  }
+  th {
+    background: var(--bg);
+    font-weight: 600;
+    color: var(--muted);
+  }
+  hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 1.5em 0;
+  }
+  /* Title page */
+  .cover {
+    text-align: center;
+    padding: 40mm 0 0;
+    page-break-after: always;
+  }
+  .cover h1 {
+    font-size: 30pt;
+    border: none;
+    margin-bottom: 0.1em;
+  }
+  .cover .sub {
+    color: var(--muted);
+    font-size: 13pt;
+    margin-bottom: 4em;
+  }
+  .cover .meta {
+    margin-top: 20mm;
+    color: var(--muted);
+    font-size: 10pt;
+  }
+</style>
+</head>
+<body>
+  <section class="cover">
+    <h1>MERN E-commerce</h1>
+    <p class="sub">Complete Documentation</p>
+    <p>A full-stack online store: storefront, admin panel, reviews,<br>
+       wishlist, search, image uploads and Stripe payments.</p>
+    <p class="meta">
+      Generated 2026-05-25<br>
+      React 18 · Vite · Redux Toolkit · Express · Mongoose · Stripe
+    </p>
+  </section>
+  <h1>MERN E-commerce — Complete Documentation</h1>
+<blockquote>
+<p>A full-stack e-commerce platform with a customer storefront, JWT-protected admin panel, image uploads, reviews &amp; ratings, advanced search, wishlist, and Stripe Checkout payments.</p>
+</blockquote>
+<hr>
+<h2>Table of contents</h2>
+<ol>
+<li>Overview</li>
+<li>Architecture</li>
+<li>Tech stack</li>
+<li>Project structure</li>
+<li>Prerequisites (Windows)</li>
+<li>Step-by-step installation</li>
+<li>MongoDB setup (local or Atlas)</li>
+<li>Environment variables</li>
+<li>Seeding sample data</li>
+<li>Running the app</li>
+<li>Default credentials</li>
+<li>Stripe payment setup</li>
+<li>Feature walkthrough</li>
+<li>REST API reference</li>
+<li>Backend — file-by-file reference</li>
+<li>Frontend — file-by-file reference</li>
+<li>Library reference (every dependency)</li>
+<li>Troubleshooting</li>
+<li>Cheat sheet</li>
+</ol>
+<hr>
+<h1>1. Overview</h1>
+<p>This project is a complete MERN (MongoDB · Express · React · Node) e-commerce application. It includes everything needed to run a small online store:</p>
+<ul>
+<li>Public storefront with product browsing, search and filters</li>
+<li>User registration and login (JWT)</li>
+<li>Cart (persisted to <code>localStorage</code>)</li>
+<li>Reviews and 5-star ratings per product</li>
+<li>Wishlist (saved per user)</li>
+<li>Stripe Checkout payments</li>
+<li>Admin panel for products, categories, orders and users</li>
+<li>Image upload via <code>multer</code>, or via external image URL</li>
+<li>Toast notifications and a top-level error boundary</li>
+<li>Seeder that populates the database with 30 realistic products, 6 categories, 5 users and ~75 reviews</li>
+</ul>
+<h1>2. Architecture</h1>
+<pre><code>┌──────────────────────────┐                ┌──────────────────────────┐
+│        Frontend          │   HTTP/JSON    │         Backend          │
+│  React 18 + Vite + Redux │ ◄────────────► │   Node.js + Express      │
+│  http://localhost:5173   │   JWT (Bearer) │   http://localhost:5000  │
+└──────────┬───────────────┘                └──────────┬───────────────┘
+           │                                           │
+           │ images at /uploads/&lt;file&gt;                 │ Mongoose ODM
+           │                                           ▼
+           │                                ┌──────────────────────────┐
+           │                                │        MongoDB           │
+           │                                │  local OR Atlas cluster  │
+           │                                └──────────────────────────┘
+           │
+           │  Stripe Checkout redirect
+           ▼
+┌──────────────────────────┐                ┌──────────────────────────┐
+│   Stripe-hosted page     │   webhook ──►  │   /api/orders/webhook    │
+└──────────────────────────┘                └──────────────────────────┘
+</code></pre>
+<ul>
+<li><strong>Frontend → Backend:</strong> axios with a request interceptor that attaches <code>Authorization: Bearer &lt;jwt&gt;</code> from <code>localStorage.userInfo</code>.</li>
+<li><strong>Backend → MongoDB:</strong> Mongoose. Connection string in <code>MONGO_URI</code>.</li>
+<li><strong>Stripe:</strong> Checkout Session URL returned by the backend; frontend redirects there. Stripe webhooks hit <code>/api/orders/webhook</code> to mark the order as paid.</li>
+</ul>
+<h1>3. Tech stack</h1>
+<p><strong>Backend</strong></p>
+<table>
+<thead>
+<tr>
+<th>Library</th>
+<th>Version</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>express</td>
+<td>4.19.2</td>
+<td>HTTP server / routing</td>
+</tr>
+<tr>
+<td>mongoose</td>
+<td>8.5.1</td>
+<td>MongoDB ODM</td>
+</tr>
+<tr>
+<td>jsonwebtoken</td>
+<td>9.0.2</td>
+<td>JWT issuing &amp; verification</td>
+</tr>
+<tr>
+<td>bcryptjs</td>
+<td>2.4.3</td>
+<td>Password hashing</td>
+</tr>
+<tr>
+<td>dotenv</td>
+<td>16.4.5</td>
+<td>Loading <code>.env</code> variables</td>
+</tr>
+<tr>
+<td>cors</td>
+<td>2.8.5</td>
+<td>Permit cross-origin requests from the frontend</td>
+</tr>
+<tr>
+<td>multer</td>
+<td>1.4.5-lts.1</td>
+<td>Multipart upload handling</td>
+</tr>
+<tr>
+<td>express-async-handler</td>
+<td>1.2.0</td>
+<td>Wraps async controllers so thrown errors go to the error middleware</td>
+</tr>
+<tr>
+<td>stripe</td>
+<td>16.8.0</td>
+<td>Stripe Checkout Sessions + webhook verification</td>
+</tr>
+<tr>
+<td>colors</td>
+<td>1.4.0</td>
+<td>Coloured seeder output</td>
+</tr>
+<tr>
+<td>nodemon (dev)</td>
+<td>3.1.4</td>
+<td>Hot reload during development</td>
+</tr>
+</tbody></table>
+<p><strong>Frontend</strong></p>
+<table>
+<thead>
+<tr>
+<th>Library</th>
+<th>Version</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>react / react-dom</td>
+<td>18.3.1</td>
+<td>UI library</td>
+</tr>
+<tr>
+<td>react-router-dom</td>
+<td>6.26.1</td>
+<td>Client-side routing</td>
+</tr>
+<tr>
+<td>@reduxjs/toolkit</td>
+<td>2.2.7</td>
+<td>State management (<code>createSlice</code>, <code>createAsyncThunk</code>, <code>createListenerMiddleware</code>)</td>
+</tr>
+<tr>
+<td>react-redux</td>
+<td>9.1.2</td>
+<td>React bindings for Redux</td>
+</tr>
+<tr>
+<td>axios</td>
+<td>1.7.4</td>
+<td>HTTP client</td>
+</tr>
+<tr>
+<td>react-icons</td>
+<td>5.3.0</td>
+<td>Icon set (<code>FaShoppingCart</code>, <code>FaStar</code>, etc.)</td>
+</tr>
+<tr>
+<td>@stripe/stripe-js</td>
+<td>4.3.0</td>
+<td>Available for future client-side Stripe integration (not required for the redirect flow)</td>
+</tr>
+<tr>
+<td>vite (dev)</td>
+<td>5.4.1</td>
+<td>Dev server + bundler</td>
+</tr>
+<tr>
+<td>@vitejs/plugin-react (dev)</td>
+<td>4.3.1</td>
+<td>Vite React plugin</td>
+</tr>
+</tbody></table>
+<h1>4. Project structure</h1>
+<pre><code>projetfinal/
+├── README.md
+├── docs/
+│   ├── DOCUMENTATION.md     ← this file
+│   └── DOCUMENTATION.pdf    ← generated
+├── backend/
+│   ├── server.js                       Express entry point
+│   ├── seeder.js                       DB seeding script
+│   ├── package.json                    Dependencies + scripts
+│   ├── .env / .env.example             Environment variables
+│   ├── .gitignore
+│   ├── config/
+│   │   └── db.js                       Mongoose connection
+│   ├── middleware/
+│   │   ├── authMiddleware.js           protect + admin
+│   │   └── errorMiddleware.js          notFound + errorHandler
+│   ├── models/
+│   │   ├── User.js                     bcrypt hook, matchPassword, wishlist
+│   │   ├── Category.js
+│   │   ├── Product.js                  reviews subdoc, rating, numReviews
+│   │   └── Order.js                    items, shippingAddress, paymentResult
+│   ├── controllers/
+│   │   ├── userController.js
+│   │   ├── categoryController.js
+│   │   ├── productController.js        filters, pagination, reviews
+│   │   ├── orderController.js          orders + Stripe session + webhook
+│   │   └── wishlistController.js
+│   ├── routes/
+│   │   ├── userRoutes.js
+│   │   ├── categoryRoutes.js
+│   │   ├── productRoutes.js
+│   │   ├── orderRoutes.js
+│   │   ├── wishlistRoutes.js
+│   │   └── uploadRoutes.js             multer upload endpoint
+│   ├── data/
+│   │   ├── users.js                    Seed users (1 admin + 4 customers)
+│   │   ├── categories.js               Seed categories (6)
+│   │   └── products.js                 Seed products (30 with real Unsplash URLs)
+│   ├── utils/
+│   │   └── generateToken.js
+│   └── uploads/                        Multer destination (gitignored)
+└── frontend/
+    ├── index.html
+    ├── vite.config.js
+    ├── package.json
+    ├── .env
+    ├── public/
+    │   └── placeholder.svg             Image-fallback asset
+    └── src/
+        ├── main.jsx                    React entry — Provider + ErrorBoundary + Router + Toast
+        ├── App.jsx                     Route table
+        ├── services/api.js             axios instance + JWT interceptor
+        ├── utils/imageUrl.js           image URL resolver + onError fallback
+        ├── redux/
+        │   ├── store.js                configureStore + cart persistence middleware
+        │   └── slices/
+        │       ├── productSlice.js
+        │       ├── cartSlice.js
+        │       ├── userSlice.js
+        │       ├── orderSlice.js
+        │       └── wishlistSlice.js
+        ├── components/
+        │   ├── Navbar.jsx
+        │   ├── Footer.jsx
+        │   ├── ProductCard.jsx
+        │   ├── Rating.jsx
+        │   ├── Loader.jsx
+        │   ├── PrivateRoute.jsx
+        │   ├── AdminRoute.jsx
+        │   ├── ErrorBoundary.jsx
+        │   └── Toast.jsx
+        ├── pages/
+        │   ├── HomePage.jsx
+        │   ├── SearchPage.jsx
+        │   ├── ProductPage.jsx
+        │   ├── CartPage.jsx
+        │   ├── LoginPage.jsx
+        │   ├── RegisterPage.jsx
+        │   ├── ProfilePage.jsx
+        │   ├── CheckoutPage.jsx
+        │   ├── WishlistPage.jsx
+        │   ├── OrderPage.jsx
+        │   └── admin/
+        │       ├── DashboardPage.jsx
+        │       ├── ProductListAdmin.jsx
+        │       ├── ProductEditPage.jsx
+        │       ├── CategoryListAdmin.jsx
+        │       ├── OrderListAdmin.jsx
+        │       └── UserListAdmin.jsx
+        └── styles/
+            ├── global.css
+            ├── toast.css
+            ├── navbar.css
+            ├── product.css
+            ├── cart.css
+            ├── forms.css
+            ├── admin.css
+            ├── reviews.css
+            ├── search.css
+            ├── wishlist.css
+            └── checkout.css
+</code></pre>
+<h1>5. Prerequisites (Windows)</h1>
+<p>Install once per machine:</p>
+<ol>
+<li><strong>Node.js LTS 18+</strong> — <a href="https://nodejs.org">https://nodejs.org</a></li>
+<li><strong>Git</strong> — <a href="https://git-scm.com/">https://git-scm.com/</a></li>
+<li><strong>MongoDB</strong>, either:<ul>
+<li><strong>Local:</strong> MongoDB Community Server from <a href="https://www.mongodb.com/try/download/community">https://www.mongodb.com/try/download/community</a> (accept &quot;Install MongoDB as a Service&quot; during setup), or</li>
+<li><strong>Cloud:</strong> A free Atlas cluster — <a href="https://www.mongodb.com/cloud/atlas/register">https://www.mongodb.com/cloud/atlas/register</a></li>
+</ul>
+</li>
+<li><em>(optional)</em> <strong>Stripe CLI</strong> for webhook testing — <a href="https://stripe.com/docs/stripe-cli">https://stripe.com/docs/stripe-cli</a></li>
+<li><em>(optional)</em> <strong>VS Code</strong> — <a href="https://code.visualstudio.com/">https://code.visualstudio.com/</a></li>
+</ol>
+<p>Verify Node:</p>
+<pre><code class="language-powershell">node --version    # v18.x or higher
+npm --version
+</code></pre>
+<h3>A note about PowerShell 5.1</h3>
+<p>Windows 10/11 ship with PowerShell 5.1 which <strong>does not support <code>&amp;&amp;</code></strong> as a command separator. Either:</p>
+<ul>
+<li>Run commands on separate lines, <strong>or</strong></li>
+<li>Use <code>;</code> to chain (runs the next command even if the previous failed), <strong>or</strong></li>
+<li>Use <code>; if ($?) { … }</code> to chain only on success, <strong>or</strong></li>
+<li>Install PowerShell 7+ (<code>winget install Microsoft.PowerShell</code>) — supports <code>&amp;&amp;</code>.</li>
+</ul>
+<h1>6. Step-by-step installation</h1>
+<pre><code class="language-powershell"># 1. Get the code
+git clone &lt;your-repo-url&gt; projetfinal
+cd projetfinal
+
+# 2. Backend
+cd backend
+npm install
+Copy-Item .env.example .env
+notepad .env     # edit values (next section)
+
+# 3. Frontend (new terminal or after cd ..)
+cd ../frontend
+npm install
+# frontend already has a .env with the API URL; only edit if you change ports
+</code></pre>
+<p>Expected install output:</p>
+<ul>
+<li>backend: <code>added ~155 packages</code></li>
+<li>frontend: <code>added ~107 packages</code></li>
+</ul>
+<h1>7. MongoDB setup</h1>
+<h3>Option A — Local MongoDB</h3>
+<p>After installing MongoDB Community Server with the &quot;Install as a Service&quot; option, MongoDB is already running on <code>mongodb://localhost:27017</code>. Confirm:</p>
+<pre><code class="language-powershell">Get-Service MongoDB        # should be &quot;Running&quot;
+Test-NetConnection localhost -Port 27017   # TcpTestSucceeded : True
+</code></pre>
+<p>Use this for <code>MONGO_URI</code> in <code>backend/.env</code>:</p>
+<pre><code>MONGO_URI=mongodb://localhost:27017/mern_ecommerce
+</code></pre>
+<h3>Option B — MongoDB Atlas (cloud, free)</h3>
+<ol>
+<li>Create a free cluster at <a href="https://www.mongodb.com/cloud/atlas/register">https://www.mongodb.com/cloud/atlas/register</a>.</li>
+<li><strong>Network Access → Add IP Address → Allow Access From Anywhere</strong> (<code>0.0.0.0/0</code>) for development.</li>
+<li><strong>Database Access → Add new database user</strong> (username + password).</li>
+<li><strong>Connect → Drivers → Node.js</strong> and copy the connection string. It looks like:</li>
+</ol>
+<pre><code>mongodb+srv://&lt;user&gt;:&lt;password&gt;@cluster0.xxxx.mongodb.net/?retryWrites=true&amp;w=majority
+</code></pre>
+<ol start="5">
+<li>Insert your database name before the <code>?</code>:</li>
+</ol>
+<pre><code>mongodb+srv://&lt;user&gt;:&lt;password&gt;@cluster0.xxxx.mongodb.net/mern_ecommerce?retryWrites=true&amp;w=majority
+</code></pre>
+<p>Use that as <code>MONGO_URI</code> in <code>backend/.env</code>.</p>
+<h1>8. Environment variables</h1>
+<h3><code>backend/.env</code></h3>
+<pre><code class="language-env">MONGO_URI=mongodb://localhost:27017/mern_ecommerce
+JWT_SECRET=replace_with_any_long_random_string
+PORT=5000
+
+# Stripe — only required to enable payments
+STRIPE_SECRET_KEY=sk_test_...
+STRIPE_PUBLISHABLE_KEY=pk_test_...
+STRIPE_WEBHOOK_SECRET=whsec_...
+CLIENT_URL=http://localhost:5173
+</code></pre>
+<h3><code>frontend/.env</code></h3>
+<pre><code class="language-env">VITE_API_URL=http://localhost:5000/api
+VITE_STRIPE_PUBLISHABLE_KEY=pk_test_...
+</code></pre>
+<blockquote>
+<p><code>CLIENT_URL</code> (backend) and Vite&#39;s port must match. Vite defaults to <strong>5173</strong>.</p>
+</blockquote>
+<h1>9. Seeding sample data</h1>
+<p>The seeder wipes Users, Categories, Products and Orders and inserts:</p>
+<ul>
+<li>5 users (1 admin + 4 customers)</li>
+<li>6 categories</li>
+<li>30 products with real Unsplash images</li>
+<li>~75 reviews (2–3 per product)</li>
+</ul>
+<pre><code class="language-powershell">cd backend
+npm run seed              # destroy + insert
+npm run seed:destroy      # delete all, do not reseed
+</code></pre>
+<p>Expected output:</p>
+<pre><code>Starting seed...
+  cleared existing collections
+  inserted 5 users
+  inserted 6 categories
+  inserted 30 products
+  inserted 74 reviews
+
+✅ Data seeded: 5 users, 6 categories, 30 products, 74 reviews
+</code></pre>
+<h1>10. Running the app</h1>
+<p>Open <strong>two</strong> PowerShell terminals.</p>
+<h3>Terminal 1 — backend</h3>
+<pre><code class="language-powershell">cd C:\path\to\projetfinal\backend
+npm run dev
+</code></pre>
+<p>Output:</p>
+<pre><code>Server running on port 5000
+MongoDB Connected: ...
+</code></pre>
+<h3>Terminal 2 — frontend</h3>
+<pre><code class="language-powershell">cd C:\path\to\projetfinal\frontend
+npm run dev
+</code></pre>
+<p>Vite opens <a href="http://localhost:5173">http://localhost:5173</a> automatically.</p>
+<h1>11. Default credentials</h1>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Email</th>
+<th>Password</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Admin</td>
+<td><code>admin@shop.com</code></td>
+<td><code>admin123</code></td>
+</tr>
+<tr>
+<td>Customer</td>
+<td><code>salma.bouzid@gmail.com</code></td>
+<td><code>password123</code></td>
+</tr>
+<tr>
+<td>Customer</td>
+<td><code>karim.trabelsi@outlook.com</code></td>
+<td><code>password123</code></td>
+</tr>
+<tr>
+<td>Customer</td>
+<td><code>lucas.martin@gmail.com</code></td>
+<td><code>password123</code></td>
+</tr>
+<tr>
+<td>Customer</td>
+<td><code>yasmine.mansouri@gmail.com</code></td>
+<td><code>password123</code></td>
+</tr>
+</tbody></table>
+<h1>12. Stripe payment setup</h1>
+<h3>12.1 Get your API keys</h3>
+<ol>
+<li>Sign in to <a href="https://dashboard.stripe.com">https://dashboard.stripe.com</a>.</li>
+<li>Make sure the dashboard is in <strong>Test mode</strong> (top-left toggle).</li>
+<li><strong>Developers → API keys</strong> — copy the <strong>Publishable</strong> and <strong>Secret</strong> keys (both start with <code>pk_test_</code> / <code>sk_test_</code>).</li>
+</ol>
+<p>Paste them into <code>backend/.env</code> and <code>frontend/.env</code>.</p>
+<h3>12.2 Forward webhooks to localhost</h3>
+<p>The webhook tells the backend that Stripe has completed a payment.</p>
+<p>In a <strong>third terminal</strong>:</p>
+<pre><code class="language-powershell">stripe login                                    # one-time browser auth
+stripe listen --forward-to localhost:5000/api/orders/webhook
+</code></pre>
+<p>The CLI prints a <code>whsec_…</code> line. Copy that into <code>STRIPE_WEBHOOK_SECRET</code> in <code>backend/.env</code>, then <strong>restart the backend</strong>.</p>
+<h3>12.3 Try a payment</h3>
+<ol>
+<li>Sign in → add a product to the cart → <strong>Proceed to Checkout</strong>.</li>
+<li>Fill the shipping form, choose <strong>Stripe</strong> as the payment method, click <strong>Place Order &amp; Pay</strong>.</li>
+<li>You land on Stripe&#39;s hosted Checkout. Use card number <code>4242 4242 4242 4242</code>, any future expiry, any 3-digit CVC, any 5-digit ZIP.</li>
+<li>On success Stripe redirects back to <code>/order/:id?payment=success</code>. A toast appears, and the order page polls for ~20 s until the webhook marks the order paid.</li>
+</ol>
+<p>Useful Stripe test cards: <a href="https://stripe.com/docs/testing">https://stripe.com/docs/testing</a></p>
+<h1>13. Feature walkthrough</h1>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>What to try</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Search</strong></td>
+<td>Type in the navbar — it debounces 300 ms then navigates to <code>/search/&lt;keyword&gt;</code>. Use the sidebar filters (category, price range, sort). URL stays shareable.</td>
+</tr>
+<tr>
+<td><strong>Pagination</strong></td>
+<td>At the bottom of <code>/search/...</code> use Prev / page numbers / Next.</td>
+</tr>
+<tr>
+<td><strong>Reviews</strong></td>
+<td>Sign in, open any product, write a review (1–5 stars + comment). Average updates immediately. Delete via the trash icon (admin can delete any review).</td>
+</tr>
+<tr>
+<td><strong>Wishlist</strong></td>
+<td>Click the heart on any product card. Visit <code>/wishlist</code> from the navbar. Add to cart or remove from there.</td>
+</tr>
+<tr>
+<td><strong>Cart</strong></td>
+<td>Adjust quantities, remove items. The cart survives page reloads (<code>localStorage</code>).</td>
+</tr>
+<tr>
+<td><strong>Checkout</strong></td>
+<td>Choose Stripe / PayPal / Cash on Delivery. Stripe redirects to Stripe Checkout; the other methods skip directly to the order page.</td>
+</tr>
+<tr>
+<td><strong>Admin</strong></td>
+<td>Log in as admin → top-right <code>Admin</code> badge → manage products, categories, orders (mark delivered) and users (toggle admin, delete).</td>
+</tr>
+</tbody></table>
+<h1>14. REST API reference</h1>
+<p>Base URL: <code>http://localhost:5000/api</code>. JWT goes in the <code>Authorization: Bearer &lt;token&gt;</code> header.</p>
+<h2>14.1 Users / Auth</h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Path</th>
+<th>Auth</th>
+<th>Body</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>POST</td>
+<td><code>/users</code></td>
+<td>public</td>
+<td><code>{name, email, password}</code></td>
+<td><code>{_id, name, email, isAdmin, token}</code></td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/users/login</code></td>
+<td>public</td>
+<td><code>{email, password}</code></td>
+<td>same</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/users/profile</code></td>
+<td>user</td>
+<td>—</td>
+<td>current user</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td><code>/users/profile</code></td>
+<td>user</td>
+<td><code>{name?, email?, password?}</code></td>
+<td>updated user + new token</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/users</code></td>
+<td>admin</td>
+<td>—</td>
+<td>array of users</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/users/:id</code></td>
+<td>admin</td>
+<td>—</td>
+<td>single user</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td><code>/users/:id</code></td>
+<td>admin</td>
+<td><code>{name?, email?, isAdmin?}</code></td>
+<td>updated user</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/users/:id</code></td>
+<td>admin</td>
+<td>—</td>
+<td><code>{message}</code></td>
+</tr>
+</tbody></table>
+<h2>14.2 Wishlist</h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Path</th>
+<th>Auth</th>
+<th>Body</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GET</td>
+<td><code>/users/wishlist</code></td>
+<td>user</td>
+<td>—</td>
+<td>array of populated products</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/users/wishlist/:productId</code></td>
+<td>user</td>
+<td>—</td>
+<td><code>201 {message, productId}</code> (idempotent)</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/users/wishlist/:productId</code></td>
+<td>user</td>
+<td>—</td>
+<td><code>204 No Content</code></td>
+</tr>
+</tbody></table>
+<h2>14.3 Categories</h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Path</th>
+<th>Auth</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GET</td>
+<td><code>/categories</code></td>
+<td>public</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/categories/:id</code></td>
+<td>public</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/categories</code></td>
+<td>admin</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td><code>/categories/:id</code></td>
+<td>admin</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/categories/:id</code></td>
+<td>admin</td>
+</tr>
+</tbody></table>
+<h2>14.4 Products</h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Path</th>
+<th>Auth</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GET</td>
+<td><code>/products</code></td>
+<td>public</td>
+<td>Query params: <code>keyword</code>, <code>category</code>, <code>minPrice</code>, <code>maxPrice</code>, <code>sortBy</code> (<code>newest</code>,<code>price_asc</code>,<code>price_desc</code>,<code>rating</code>,<code>popular</code>), <code>page</code>, <code>limit</code>. Returns <code>{products, page, pages, total}</code></td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/products/:id</code></td>
+<td>public</td>
+<td>category is populated</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/products</code></td>
+<td>admin</td>
+<td>create</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td><code>/products/:id</code></td>
+<td>admin</td>
+<td>update</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/products/:id</code></td>
+<td>admin</td>
+<td>delete</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/products/:id/reviews</code></td>
+<td>user</td>
+<td><code>{rating, comment}</code> (1 per user — duplicates → 400)</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/products/:id/reviews/:reviewId</code></td>
+<td>owner / admin</td>
+<td><code>204 No Content</code></td>
+</tr>
+</tbody></table>
+<h2>14.5 Orders</h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Path</th>
+<th>Auth</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>POST</td>
+<td><code>/orders</code></td>
+<td>user</td>
+<td>create from cart</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/orders/myorders</code></td>
+<td>user</td>
+<td>current user&#39;s orders</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/orders/:id</code></td>
+<td>owner / admin</td>
+<td>order details</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td><code>/orders/:id/pay</code></td>
+<td>owner / admin</td>
+<td>manually mark paid</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/orders</code></td>
+<td>admin</td>
+<td>all orders</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td><code>/orders/:id/deliver</code></td>
+<td>admin</td>
+<td>mark delivered</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/orders/:id/create-checkout-session</code></td>
+<td>owner</td>
+<td>returns <code>{url, id}</code> — Stripe Checkout URL</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/orders/webhook</code></td>
+<td>Stripe</td>
+<td>raw body; webhook signature verified — flips <code>isPaid</code></td>
+</tr>
+</tbody></table>
+<h2>14.6 Uploads</h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Path</th>
+<th>Auth</th>
+<th>Body</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>POST</td>
+<td><code>/upload</code></td>
+<td>admin</td>
+<td><code>multipart/form-data</code> with field <code>image</code></td>
+<td><code>{message, path: &quot;/uploads/&lt;filename&gt;&quot;}</code></td>
+</tr>
+</tbody></table>
+<p>Static files are then served at <code>http://localhost:5000/uploads/&lt;filename&gt;</code>.</p>
+<hr>
+<h1>15. Backend — file-by-file reference</h1>
+<h2>15.1 <code>server.js</code></h2>
+<p>The Express entry point. Key details:</p>
+<ul>
+<li>Loads <code>.env</code> via <code>dotenv.config()</code>.</li>
+<li>Calls <code>connectDB()</code> from <code>config/db.js</code>.</li>
+<li>Registers <code>cors()</code> then the <strong>Stripe webhook with <code>express.raw({ type: &#39;application/json&#39; })</code> BEFORE <code>express.json()</code></strong> — Stripe needs the raw byte body to verify the signature.</li>
+<li>Mounts the wishlist router <strong>before</strong> the catch-all <code>/api/users</code> router so requests to <code>/api/users/wishlist</code> aren&#39;t matched by the admin&#39;s <code>/users/:id</code> route.</li>
+<li>Serves <code>/uploads/&lt;file&gt;</code> statically.</li>
+<li>Registers <code>notFound</code> and <code>errorHandler</code> middlewares at the end.</li>
+</ul>
+<h2>15.2 <code>config/db.js</code></h2>
+<p>Single function <code>connectDB()</code> that calls <code>mongoose.connect(process.env.MONGO_URI)</code>. On success logs <code>MongoDB Connected: &lt;host&gt;</code>. On failure logs the error and calls <code>process.exit(1)</code>.</p>
+<h2>15.3 <code>middleware/authMiddleware.js</code></h2>
+<ul>
+<li><code>protect</code> — reads <code>Authorization: Bearer …</code>, verifies the JWT with <code>JWT_SECRET</code>, loads the user (minus password) into <code>req.user</code>. On any failure throws via <code>express-async-handler</code>, which the global error middleware turns into a 401 JSON response.</li>
+<li><code>admin</code> — synchronous guard that checks <code>req.user.isAdmin</code>, otherwise throws &quot;Not authorized as admin&quot; with status 401.</li>
+</ul>
+<h2>15.4 <code>middleware/errorMiddleware.js</code></h2>
+<ul>
+<li><code>notFound</code> — generic 404 fall-through for unmatched routes.</li>
+<li><code>errorHandler</code> — turns any thrown error into JSON <code>{message, stack}</code>. Hides the stack when <code>NODE_ENV === &#39;production&#39;</code>.</li>
+</ul>
+<h2>15.5 <code>utils/generateToken.js</code></h2>
+<p><code>generateToken(userId)</code> signs <code>{id}</code> with <code>JWT_SECRET</code>, expiry 30 days.</p>
+<h2>15.6 Models</h2>
+<h3><code>models/User.js</code></h3>
+<p>Fields: <code>name</code>, <code>email</code> (unique, lowercase), <code>password</code>, <code>isAdmin</code> (default false), <code>wishlist</code> (array of Product ObjectIds), <code>timestamps</code>.</p>
+<ul>
+<li><strong>Pre-save hook</strong>: hashes the password with <code>bcrypt.hash(…, 10)</code> whenever the password field is new or modified.</li>
+<li><strong>Instance method</strong>: <code>matchPassword(plain)</code> → returns a <code>Promise&lt;boolean&gt;</code> using <code>bcrypt.compare</code>.</li>
+</ul>
+<blockquote>
+<p>Reminder: the hook only fires on <code>Model.create()</code> / <code>doc.save()</code>. Use those (not <code>insertMany</code>) when you want hashing.</p>
+</blockquote>
+<h3><code>models/Category.js</code></h3>
+<p>Fields: <code>name</code> (unique, trimmed), <code>description</code>, <code>timestamps</code>. Plain Mongoose schema.</p>
+<h3><code>models/Product.js</code></h3>
+<p>Fields: <code>name</code>, <code>description</code>, <code>price</code>, <code>image</code> (URL or <code>/uploads/...</code> path), <code>category</code> (ref Category), <code>countInStock</code>, <code>rating</code>, <code>numReviews</code>, <strong><code>reviews</code></strong> (array of <code>reviewSchema</code>), <code>timestamps</code>.</p>
+<p><code>reviewSchema</code> subdoc: <code>user</code> (ref User), <code>name</code>, <code>rating</code> 1–5, <code>comment</code>, <code>timestamps</code>. Subdocuments get auto-generated <code>_id</code> so the front-end can target them for deletion.</p>
+<h3><code>models/Order.js</code></h3>
+<p>Fields: <code>user</code>, <code>orderItems</code> (array of <code>orderItemSchema</code> with <code>product</code> ref + name/qty/price/image snapshot — <code>_id: false</code>), <code>shippingAddress</code> (subdoc with address/city/postalCode/country — <code>_id: false</code>), <code>paymentMethod</code>, <strong><code>paymentResult</code></strong> (subdoc with Stripe session metadata: <code>id</code>, <code>status</code>, <code>email_address</code>, <code>update_time</code>), <code>totalPrice</code>, <code>isPaid</code>, <code>paidAt</code>, <code>isDelivered</code>, <code>deliveredAt</code>, <code>timestamps</code>.</p>
+<h2>15.7 Controllers</h2>
+<p>All wrapped with <code>express-async-handler</code> so unhandled rejections / thrown errors flow to the error middleware.</p>
+<h3><code>controllers/userController.js</code></h3>
+<ul>
+<li><code>registerUser</code> — 201 with token if email is free; 400 if not.</li>
+<li><code>loginUser</code> — <code>matchPassword</code> check; 401 otherwise.</li>
+<li><code>getUserProfile</code> — uses <code>req.user._id</code>.</li>
+<li><code>updateUserProfile</code> — name/email/password (setting password triggers the pre-save bcrypt hook).</li>
+<li><code>getUsers</code> — admin, sorted newest first.</li>
+<li><code>getUserById</code> — admin.</li>
+<li><code>updateUser</code> — admin; can toggle <code>isAdmin</code>.</li>
+<li><code>deleteUser</code> — admin. Refuses to delete the calling user (<code>400</code>).</li>
+</ul>
+<h3><code>controllers/categoryController.js</code></h3>
+<p>Classic CRUD: <code>getCategories</code>, <code>getCategoryById</code>, <code>createCategory</code> (admin), <code>updateCategory</code> (admin), <code>deleteCategory</code> (admin). <code>createCategory</code> returns 401 on duplicate name.</p>
+<h3><code>controllers/productController.js</code></h3>
+<ul>
+<li><code>getProducts</code> — accepts <code>keyword</code>, <code>category</code>, <code>minPrice</code>, <code>maxPrice</code>, <code>sortBy</code>, <code>page</code>, <code>limit</code>. Builds the filter, runs both <code>countDocuments</code> and <code>find</code> in series, returns <code>{products, page, pages, total}</code>.</li>
+<li><code>getProductById</code> — populates <code>category</code>.</li>
+<li><code>createProduct</code>, <code>updateProduct</code>, <code>deleteProduct</code> — admin.</li>
+<li><code>createProductReview</code> — validates rating 1–5, rejects duplicate reviews from the same user, pushes the new review, then calls <code>recomputeRating</code> (avg + count) and saves.</li>
+<li><code>deleteProductReview</code> — checks the caller is the owner or admin; otherwise 403. Recomputes after deletion. Returns 204.</li>
+</ul>
+<h3><code>controllers/orderController.js</code></h3>
+<ul>
+<li><code>addOrderItems</code> — 400 if items array is empty.</li>
+<li><code>getMyOrders</code>, <code>getOrderById</code> (with owner/admin guard), <code>getAllOrders</code> (admin).</li>
+<li><code>updateOrderToPaid</code> — owner/admin; sets <code>isPaid</code> and <code>paidAt</code>.</li>
+<li><code>updateOrderToDelivered</code> — admin only.</li>
+<li><code>createCheckoutSession</code> — admin/owner. Builds Stripe line items (price in cents), calls <code>stripe.checkout.sessions.create</code> with success_url <code>${CLIENT_URL}/order/&lt;id&gt;?payment=success</code> and cancel_url <code>?payment=cancelled</code>. Returns <code>{url, id}</code>.</li>
+<li><code>stripeWebhook</code> — verifies the <code>Stripe-Signature</code> header with <code>STRIPE_WEBHOOK_SECRET</code>. On <code>checkout.session.completed</code> flips <code>isPaid</code>, sets <code>paidAt</code>, stores <code>paymentResult</code> (id, status, email, update_time). Mounted in <code>server.js</code> with <code>express.raw</code> because Stripe verification needs the literal byte buffer.</li>
+</ul>
+<p>Stripe is <strong>lazily</strong> initialised — <code>getStripe()</code> only constructs the client when the secret key is present, so the app boots fine without payment configured.</p>
+<h3><code>controllers/wishlistController.js</code></h3>
+<ul>
+<li><code>getWishlist</code> — returns the user&#39;s wishlist populated with full Product docs.</li>
+<li><code>addToWishlist</code> — uses <code>$addToSet</code>, so it&#39;s idempotent.</li>
+<li><code>removeFromWishlist</code> — uses <code>$pull</code> and returns 204.</li>
+</ul>
+<h2>15.8 Routes</h2>
+<ul>
+<li><code>routes/userRoutes.js</code> — <code>/</code>, <code>/login</code>, <code>/profile</code>, then <code>/:id</code> for the admin endpoints.</li>
+<li><code>routes/wishlistRoutes.js</code> — <code>/</code>, <code>/:productId</code>. Mounted at <code>/api/users/wishlist</code> in <code>server.js</code>.</li>
+<li><code>routes/categoryRoutes.js</code>, <code>routes/productRoutes.js</code>, <code>routes/orderRoutes.js</code> — REST routers wiring each controller method with <code>protect</code> / <code>admin</code> guards as required.</li>
+<li><code>routes/uploadRoutes.js</code> — multer disk storage that writes into <code>backend/uploads/</code>. Filenames are sanitized + timestamped. Whitelist: <code>jpg, jpeg, png, webp, gif</code>. Limit: 5 MB. Returns <code>{message, path}</code>.</li>
+</ul>
+<h2>15.9 Seeder</h2>
+<p><code>seeder.js</code> connects via <code>config/db.js</code>, then with <code>--destroy</code> / <code>-d</code> only wipes the four collections, or without that flag runs:</p>
+<ol>
+<li>Wipe Orders, Products, Categories, Users.</li>
+<li>Insert users via <code>User.create()</code> so the bcrypt hook fires per doc.</li>
+<li><code>Category.insertMany(...)</code> and build a name → ObjectId map.</li>
+<li>Map each product&#39;s <code>category</code> from the name in <code>data/products.js</code> to the resolved ObjectId.</li>
+<li><code>Product.insertMany(...)</code>.</li>
+<li>For each product: pick 2–3 random non-admin users, fabricate review docs with rating 3–5 and a comment from a 14-string pool, recompute <code>rating</code> (avg) and <code>numReviews</code>, <code>await product.save()</code>.</li>
+</ol>
+<p>Uses <code>colors</code> for friendly output. Exits 0 on success, 1 on any error.</p>
+<h2>15.10 Data files (used by the seeder)</h2>
+<ul>
+<li><code>data/users.js</code> — 1 admin + 4 customers with realistic French/Tunisian names. Plain-text passwords; the model hook hashes them.</li>
+<li><code>data/categories.js</code> — 6 entries (Electronics, Fashion, Home &amp; Kitchen, Books, Sports &amp; Outdoors, Beauty &amp; Health).</li>
+<li><code>data/products.js</code> — 30 products (5 per category) with real product names, 2–3 sentence descriptions, realistic prices, stock 0–80, and verified Unsplash photo IDs in the format <code>https://images.unsplash.com/photo-&lt;id&gt;?w=600&amp;q=80</code>.</li>
+</ul>
+<hr>
+<h1>16. Frontend — file-by-file reference</h1>
+<h2>16.1 <code>main.jsx</code></h2>
+<p>Wraps <code>&lt;App /&gt;</code> in <code>&lt;ErrorBoundary&gt;</code> → <code>&lt;Provider store={store}&gt;</code> → <code>&lt;BrowserRouter&gt;</code> → <code>&lt;ToastProvider&gt;</code>. Imports global styles and the toast stylesheet. Strict mode enabled.</p>
+<h2>16.2 <code>App.jsx</code></h2>
+<p>Renders <code>&lt;Navbar&gt;</code> + <code>&lt;main&gt;&lt;Routes&gt;…&lt;/Routes&gt;&lt;/main&gt;</code> + <code>&lt;Footer&gt;</code> inside <code>.app-shell</code>. Imports all stylesheets. Each <code>/profile</code>, <code>/checkout</code>, <code>/wishlist</code>, <code>/order/:id</code> is wrapped in <code>&lt;PrivateRoute&gt;</code>; <code>/admin/*</code> in <code>&lt;AdminRoute&gt;</code>. Fallback <code>*</code> route renders a 404 message.</p>
+<h2>16.3 <code>services/api.js</code></h2>
+<p>Creates <code>axios.create({ baseURL: VITE_API_URL })</code>. Request interceptor reads <code>localStorage.userInfo</code>, parses it, and adds <code>Authorization: Bearer &lt;token&gt;</code> when available. Response interceptor passes errors through unchanged (slot reserved for future global 401 handling).</p>
+<h2>16.4 <code>utils/imageUrl.js</code></h2>
+<ul>
+<li><code>imageUrl(path)</code> — if <code>path</code> is empty returns <code>/placeholder.svg</code>; if it starts with <code>http(s)</code> returns it unchanged; otherwise prefixes with the backend host (strips <code>/api</code> from <code>VITE_API_URL</code>). Lets the same field hold both an external CDN URL and a <code>/uploads/...</code> path.</li>
+<li><code>onImageError(e)</code> — <code>onError</code> handler that swaps the <code>src</code> to the placeholder once (guards against infinite loops).</li>
+<li><code>PLACEHOLDER</code> — exported constant so callers can configure a different fallback.</li>
+</ul>
+<h2>16.5 Redux</h2>
+<h3><code>redux/store.js</code></h3>
+<p><code>configureStore</code> with the five reducers (products, cart, user, order, wishlist). Adds a <code>createListenerMiddleware</code> that listens for any of the six cart actions (<code>addToCart</code>, <code>removeFromCart</code>, <code>updateQty</code>, <code>clearCart</code>, <code>saveShippingAddress</code>, <code>savePaymentMethod</code>) and writes <code>state.cart</code> to <code>localStorage.cart</code> after each change.</p>
+<h3><code>redux/slices/productSlice.js</code></h3>
+<p>Thunks:</p>
+<ul>
+<li><code>fetchProducts({keyword?, category?, minPrice?, maxPrice?, sortBy?, page?, limit?})</code> — sends only present keys.</li>
+<li><code>fetchProductById(id)</code></li>
+<li><code>createProduct(payload)</code>, <code>updateProduct({id, ...payload})</code>, <code>deleteProduct(id)</code> (admin)</li>
+<li><code>createReview({productId, rating, comment})</code> — re-dispatches <code>fetchProductById</code> on success.</li>
+<li><code>deleteReview({productId, reviewId})</code> — same refresh behaviour.</li>
+</ul>
+<p>State: <code>{products, page, pages, total, product, loading, error}</code>. Reducers: <code>clearProduct</code>, <code>clearProductError</code>.</p>
+<h3><code>redux/slices/cartSlice.js</code></h3>
+<p>Pure reducers only (no thunks): <code>addToCart</code> (merges qty if same product), <code>removeFromCart</code>, <code>updateQty</code>, <code>clearCart</code>, <code>saveShippingAddress</code>, <code>savePaymentMethod</code>. Initial state rehydrated from <code>localStorage.cart</code>.</p>
+<h3><code>redux/slices/userSlice.js</code></h3>
+<p>Thunks: <code>login</code>, <code>register</code>, <code>logout</code>, <code>updateProfile</code>. Writes/removes <code>localStorage.userInfo</code> on success/logout. Initial <code>userInfo</code> rehydrated from storage.</p>
+<h3><code>redux/slices/orderSlice.js</code></h3>
+<p>Thunks: <code>createOrder</code>, <code>getOrderDetails</code>, <code>getMyOrders</code>, <code>payOrder</code> (manual), <code>listAllOrders</code> (admin), <code>deliverOrder</code> (admin). State <code>{order, orders, allOrders, loading, error, success}</code> + <code>resetOrderState</code>.</p>
+<h3><code>redux/slices/wishlistSlice.js</code></h3>
+<p>Thunks: <code>fetchWishlist</code>, <code>addToWishlist(product|id)</code>, <code>removeFromWishlist(id)</code>. Adds locally optimistically (filter for duplicates), removes by filtering by <code>_id</code>. Helper selector <code>selectIsWishlisted(productId)</code>.</p>
+<h2>16.6 Components</h2>
+<h3><code>Navbar.jsx</code></h3>
+<ul>
+<li>Logo → <code>/</code>.</li>
+<li>Search input with 300 ms debounce that navigates to <code>/search/&lt;encoded&gt;</code>. Submitting the form skips the debounce.</li>
+<li>Wishlist link with a numeric badge.</li>
+<li>Cart link with a quantity-sum badge.</li>
+<li>When <code>userInfo</code>: shows the name, the <code>Admin</code> badge if <code>isAdmin</code>, and a Logout button.</li>
+<li>On every <code>userInfo</code> change: dispatches <code>fetchWishlist()</code> (login) or <code>clearWishlist()</code> (logout).</li>
+</ul>
+<h3><code>Footer.jsx</code></h3>
+<p>Simple copyright line.</p>
+<h3><code>ProductCard.jsx</code></h3>
+<p>Image (with <code>onImageError</code>), heart overlay button (toggles wishlist; redirects to login when signed out), name, <code>Rating</code>, price and View link.</p>
+<h3><code>Rating.jsx</code></h3>
+<p>Renders 5 stars based on a numeric value (0–5). Uses <code>FaStar</code>, <code>FaStarHalfAlt</code>, <code>FaRegStar</code> from <code>react-icons</code>. Optional <code>text</code> prop for the label after the stars. <code>aria-label</code> for screen readers.</p>
+<h3><code>Loader.jsx</code></h3>
+<p>CSS-only spinner. Optional <code>size</code> prop.</p>
+<h3><code>PrivateRoute.jsx</code></h3>
+<p>If no <code>userInfo</code> → <code>&lt;Navigate to=&quot;/login&quot; replace&gt;</code> (preserves the source location in <code>state.from</code>).</p>
+<h3><code>AdminRoute.jsx</code></h3>
+<p>If no <code>userInfo</code> → redirect to <code>/login</code>. If <code>userInfo</code> but not admin → redirect to <code>/</code>.</p>
+<h3><code>ErrorBoundary.jsx</code></h3>
+<p>Class component. Catches render errors, logs to the console, shows a friendly card with a &quot;Try again&quot; (reset) and &quot;Go home&quot; (location.assign) button. Collapsed <code>&lt;details&gt;</code> shows the technical error.</p>
+<h3><code>Toast.jsx</code></h3>
+<p><code>ToastProvider</code> context + <code>useToast()</code> hook. API: <code>toast.success(msg)</code>, <code>toast.error(msg)</code>, <code>toast.info(msg)</code>, <code>toast.dismiss(id)</code>. Auto-dismiss after 3.5 s; manual close via X button. The stack is fixed top-right (full-width on mobile).</p>
+<h2>16.7 Pages</h2>
+<h3><code>HomePage.jsx</code></h3>
+<p>Fetches latest products via <code>fetchProducts({})</code>. Renders a grid of <code>ProductCard</code>s plus a title.</p>
+<h3><code>SearchPage.jsx</code></h3>
+<p>Route param <code>:keyword?</code> plus URL query string for filters. Sidebar: category dropdown (loaded from <code>/api/categories</code>), price min/max, sort. Bottom: numbered pagination. Filter changes reset to page 1 and update <code>useSearchParams</code> so URLs are shareable.</p>
+<h3><code>ProductPage.jsx</code></h3>
+<p>Product details, qty selector capped by stock, &quot;Add to Cart&quot; + wishlist heart, then a Reviews section: existing reviews list (with trash icon for the owner/admin), then a form (rating dropdown + comment textarea) shown only when signed in and the user hasn&#39;t reviewed yet.</p>
+<h3><code>CartPage.jsx</code></h3>
+<p>Each line: image, name, price, qty <code>&lt;select&gt;</code>, remove button. Sidebar: items count + total. Checkout button redirects to <code>/login?redirect=/checkout</code> when signed out.</p>
+<h3><code>LoginPage.jsx</code> / <code>RegisterPage.jsx</code></h3>
+<p>Forms that dispatch <code>login</code> / <code>register</code>. On success → redirect (via <code>?redirect=</code> if present, else <code>/</code>).</p>
+<h3><code>ProfilePage.jsx</code></h3>
+<p>Update profile form on the left; user&#39;s orders table on the right. Each order has a link to <code>/order/:id</code>.</p>
+<h3><code>CheckoutPage.jsx</code></h3>
+<p>Shipping form, payment method radios (Stripe / PayPal / Cash on Delivery). On submit dispatches <code>createOrder</code>. When the thunk fulfils:</p>
+<ul>
+<li><strong>Stripe</strong> → calls <code>POST /api/orders/:id/create-checkout-session</code>, then <code>window.location.href = data.url</code>.</li>
+<li>Else → navigates to <code>/order/:id</code> with a success toast.</li>
+</ul>
+<h3><code>WishlistPage.jsx</code></h3>
+<p>Grid of wishlisted products with &quot;Add to Cart&quot; + Remove on each card. Empty-state CTA when the list is empty.</p>
+<h3><code>OrderPage.jsx</code></h3>
+<p>Order details (shipping, payment, items list, total). Reads <code>?payment=success|cancelled</code> from the URL and shows the matching toast, then strips the param. Polls <code>getOrderDetails</code> every 2 s for up to 20 s after a Stripe success redirect, so the webhook has time to flip <code>isPaid</code>.</p>
+<h2>16.8 Admin pages</h2>
+<h3><code>admin/DashboardPage.jsx</code></h3>
+<p>Four tile links to <code>/admin/products</code>, <code>/admin/categories</code>, <code>/admin/orders</code>, <code>/admin/users</code> with icons.</p>
+<h3><code>admin/ProductListAdmin.jsx</code></h3>
+<p>Table (thumb, name, price, category name, stock, edit/delete buttons). &quot;New Product&quot; button → <code>/admin/products/new</code>.</p>
+<h3><code>admin/ProductEditPage.jsx</code></h3>
+<p>Handles both <code>/admin/products/new</code> and <code>/admin/products/:id/edit</code>. Category dropdown is loaded from <code>/api/categories</code>. <strong>Image input has a Upload-file / Use-URL toggle</strong> — the URL mode is a free-text input, the upload mode posts to <code>/api/upload</code> (admin only). Preview image renders with <code>onError</code> fallback. Pre-fills the toggle to Upload mode when editing a product whose existing image is a <code>/uploads/...</code> path.</p>
+<h3><code>admin/CategoryListAdmin.jsx</code></h3>
+<p>Inline create form + per-row edit/save/cancel + delete. All API calls are direct via axios (no slice).</p>
+<h3><code>admin/OrderListAdmin.jsx</code></h3>
+<p>Table of all orders with paid/delivered badges. &quot;Mark Delivered&quot; button hides once the order is delivered.</p>
+<h3><code>admin/UserListAdmin.jsx</code></h3>
+<p>Table of users with an Admin/User badge. Toggle button switches <code>isAdmin</code>. Delete button. Both are disabled for the currently signed-in user.</p>
+<h2>16.9 Styles</h2>
+<p>Mobile-first. Variables in <code>global.css</code>: <code>--primary</code>, <code>--secondary</code>, <code>--bg</code>, <code>--text</code>, <code>--muted</code>, <code>--border</code>, <code>--danger</code>, <code>--success</code>, plus radius/shadow/font tokens.</p>
+<ul>
+<li><code>global.css</code> — reset + tokens + typography.</li>
+<li><code>toast.css</code> — toast stack + per-type accent + ErrorBoundary card.</li>
+<li><code>navbar.css</code> — header layout, badge, search input, mobile collapsing.</li>
+<li><code>product.css</code> — home grid, product card, product detail page, primary button.</li>
+<li><code>cart.css</code> — cart list + summary; on mobile each row reflows to a <code>grid-template-areas</code> layout.</li>
+<li><code>forms.css</code> — <code>.form-card</code> shared form styling, profile orders table.</li>
+<li><code>admin.css</code> — dashboard tiles, table, icon buttons, badges, modal-style edit card, the Upload/URL toggle.</li>
+<li><code>reviews.css</code> — star rating, heart buttons (card overlay + product page), review cards, review form.</li>
+<li><code>search.css</code> — sidebar filters, sticky-on-desktop layout, pagination.</li>
+<li><code>wishlist.css</code> — empty state + grid + card variant.</li>
+<li><code>checkout.css</code> — payment-method hint, order-page two-column layout.</li>
+</ul>
+<h2>16.10 <code>vite.config.js</code></h2>
+<p><code>@vitejs/plugin-react</code> is registered. Dev server listens on port <strong>5173</strong> with <code>open: true</code> so the browser opens automatically.</p>
+<h2>16.11 <code>public/placeholder.svg</code></h2>
+<p>Inline SVG with a gray rectangle, a mountain glyph, and the text &quot;No image&quot;. Served by Vite at <code>/placeholder.svg</code>. Used by <code>onImageError</code>.</p>
+<hr>
+<h1>17. Library reference</h1>
+<p>This section explains every third-party library used, what it does and where you&#39;ll see it in the code.</p>
+<h2>17.1 Backend libraries</h2>
+<h3>express</h3>
+<p>The HTTP server. Each <code>app.use(...)</code> registers middleware or a sub-router. The error middleware (<code>errorMiddleware.js</code>) is mounted last and matches any signature with four parameters (<code>err, req, res, next</code>).</p>
+<h3>mongoose</h3>
+<p>ODM for MongoDB. Used for schema definition, hooks (User pre-save), query builders (<code>Product.find(filter).populate(&#39;category&#39;).sort(sort).skip(...).limit(...)</code>), and atomic updates (<code>$addToSet</code>, <code>$pull</code> in the wishlist controller).</p>
+<h3>jsonwebtoken</h3>
+<p><code>jwt.sign({id}, secret, {expiresIn: &#39;30d&#39;})</code> to create tokens, <code>jwt.verify(token, secret)</code> in <code>protect</code>.</p>
+<h3>bcryptjs</h3>
+<p><code>bcrypt.hash(password, 10)</code> in the User pre-save hook, and <code>bcrypt.compare(plain, hashed)</code> in <code>matchPassword</code>.</p>
+<h3>dotenv</h3>
+<p><code>dotenv.config()</code> populates <code>process.env</code> with the values from <code>.env</code> at process start.</p>
+<h3>cors</h3>
+<p>A permissive CORS middleware so the Vite dev server (port 5173) can call the API on port 5000.</p>
+<h3>multer</h3>
+<p>Multipart parser. We use <code>multer.diskStorage</code> with custom filename generation, a file filter to whitelist image MIME types, and a 5 MB limit. The route reads <code>req.file</code> after the middleware runs.</p>
+<h3>express-async-handler</h3>
+<p>Wraps an async controller in <code>Promise.resolve(fn(...)).catch(next)</code> so thrown errors propagate to the global error middleware without explicit try/catch.</p>
+<h3>stripe</h3>
+<p>Server-side Stripe SDK. Used for <code>stripe.checkout.sessions.create(...)</code> (Checkout Sessions in Payment mode) and <code>stripe.webhooks.constructEvent(rawBody, sigHeader, secret)</code> (signature verification).</p>
+<h3>colors</h3>
+<p>Adds string-prototype methods (<code>&#39;hi&#39;.green.bold</code>). Powers the friendly seeder output. (Modifying String.prototype is controversial but pragmatic; if you&#39;d rather not, <code>chalk@4</code> is a drop-in alternative.)</p>
+<h3>nodemon (dev)</h3>
+<p>Watches files and restarts <code>node server.js</code> on change. Configured via the <code>dev</code> script.</p>
+<h2>17.2 Frontend libraries</h2>
+<h3>react / react-dom</h3>
+<p>UI library. We use function components + hooks throughout. StrictMode in <code>main.jsx</code>.</p>
+<h3>react-router-dom (v6)</h3>
+<p>Used: <code>&lt;BrowserRouter&gt;</code> (in <code>main.jsx</code>), <code>&lt;Routes&gt;</code> / <code>&lt;Route&gt;</code> (in <code>App.jsx</code>), <code>&lt;Link&gt;</code> / <code>&lt;Navigate&gt;</code>, <code>useNavigate</code>, <code>useParams</code>, <code>useSearchParams</code>, <code>useLocation</code>.</p>
+<h3>@reduxjs/toolkit</h3>
+<p><code>configureStore</code>, <code>createSlice</code>, <code>createAsyncThunk</code>, <code>createListenerMiddleware</code> (cart persistence in <code>store.js</code>), <code>isAnyOf</code> (matching multiple cart actions in the listener).</p>
+<h3>react-redux</h3>
+<p><code>&lt;Provider store={store}&gt;</code>, <code>useSelector</code>, <code>useDispatch</code>.</p>
+<h3>axios</h3>
+<p><code>axios.create({baseURL})</code>. Request interceptor attaches the JWT from <code>localStorage</code>.</p>
+<h3>react-icons</h3>
+<p>Icon set from various icon libraries; we use Font Awesome (<code>fa</code>): <code>FaShoppingCart</code>, <code>FaUser</code>, <code>FaSearch</code>, <code>FaHeart</code>, <code>FaRegHeart</code>, <code>FaStar</code>, <code>FaStarHalfAlt</code>, <code>FaRegStar</code>, <code>FaTrash</code>, <code>FaEdit</code>, <code>FaPlus</code>, <code>FaArrowLeft</code>, <code>FaUserShield</code>, <code>FaBoxOpen</code>, <code>FaTags</code>, <code>FaClipboardList</code>, <code>FaUsers</code>, <code>FaCheck</code>, <code>FaCheckCircle</code>, <code>FaExclamationCircle</code>, <code>FaInfoCircle</code>, <code>FaTimes</code>.</p>
+<h3>@stripe/stripe-js</h3>
+<p>Loaded for future client-side use (Elements, Payment Element). The current implementation uses Stripe&#39;s hosted Checkout, so the redirect is a plain <code>window.location.href = url</code>; the library is available if you later want to embed Elements.</p>
+<h3>vite / @vitejs/plugin-react (dev)</h3>
+<p>Vite is the dev server and bundler. <code>npm run dev</code> for hot reload, <code>npm run build</code> for the production bundle to <code>dist/</code>.</p>
+<hr>
+<h1>18. Troubleshooting</h1>
+<h3>Backend prints &quot;Server running on port 5000&quot; then exits</h3>
+<p>MongoDB connection failed. Common causes:</p>
+<ul>
+<li>Local Mongo service not running → <code>Start-Service MongoDB</code>.</li>
+<li>Atlas: IP not allowlisted → Atlas → Network Access → Allow <code>0.0.0.0/0</code> (development) or your current IP.</li>
+<li>Wrong password or special characters in the Atlas password → URL-encode them.</li>
+<li>DB name missing from the Atlas URI — make sure it&#39;s <code>…mongodb.net/&lt;dbname&gt;?...</code>.</li>
+</ul>
+<h3>Frontend &quot;Operation <code>products.find()</code> buffering timed out after 10000ms&quot;</h3>
+<p>Same root cause as above — the backend started but never connected to MongoDB. Check the backend terminal output for the <code>MongoDB Connected:</code> line.</p>
+<h3><code>npm error code ENOENT … no such file or directory, open &#39;C:\…\package.json&#39;</code></h3>
+<p>You&#39;re in the wrong folder. Most scripts live in <code>backend/</code> or <code>frontend/</code>. Either <code>cd</code> into the right folder or use <code>npm --prefix backend run &lt;script&gt;</code>.</p>
+<h3><code>The token &#39;&amp;&amp;&#39; is not a valid statement separator in this version.</code></h3>
+<p>PowerShell 5.1. Run one command per line, use <code>;</code>, or install PowerShell 7+.</p>
+<h3>Stripe webhook never marks an order paid</h3>
+<ul>
+<li>Did you start <code>stripe listen --forward-to localhost:5000/api/orders/webhook</code>?</li>
+<li>Did you copy the printed <code>whsec_...</code> into <code>STRIPE_WEBHOOK_SECRET</code> and <strong>restart</strong> the backend?</li>
+<li>Is the <code>Stripe-Signature</code> header missing? Make sure the webhook route is mounted with <code>express.raw({ type: &#39;application/json&#39; })</code> <strong>before</strong> <code>express.json()</code>. (It is — but if you re-organize <code>server.js</code>, preserve this order.)</li>
+</ul>
+<h3>Atlas hangs forever</h3>
+<p>Atlas blocks unknown IPs silently. Add <code>0.0.0.0/0</code> to Network Access.</p>
+<h3>&quot;Already reviewed this product&quot; when you&#39;ve never reviewed it</h3>
+<p>Reviews are tracked per-user. If you switch accounts but a stale <code>userInfo</code> is in <code>localStorage</code>, sign out (clears storage) then sign back in.</p>
+<h3>Images not showing</h3>
+<ul>
+<li>Confirm the URL pattern in the database. External Unsplash URLs start with <code>https://</code> — they bypass the host prefix. <code>/uploads/&lt;file&gt;</code> images need the backend running (Express serves them statically).</li>
+<li><code>onImageError</code> swaps to <code>/placeholder.svg</code>; if you see that asset, the original URL failed.</li>
+</ul>
+<h1>19. Cheat sheet</h1>
+<pre><code class="language-powershell"># First-time setup
+cd backend ; npm install ; Copy-Item .env.example .env
+cd ..\frontend ; npm install
+
+# Run
+cd ..\backend ; npm run dev
+# new terminal:
+cd ..\frontend ; npm run dev
+
+# Seed
+cd ..\backend ; npm run seed
+npm run seed:destroy
+
+# Stripe
+stripe login
+stripe listen --forward-to localhost:5000/api/orders/webhook
+
+# Useful URLs
+# http://localhost:5173                    Storefront
+# http://localhost:5173/admin              Admin dashboard
+# http://localhost:5000/api/products       API smoke test
+# http://localhost:5000/uploads/&lt;file&gt;     Uploaded image
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Credential</th>
+<th>Email</th>
+<th>Password</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Admin</td>
+<td><a href="mailto:admin@shop.com">admin@shop.com</a></td>
+<td>admin123</td>
+</tr>
+<tr>
+<td>Customer</td>
+<td><a href="mailto:salma.bouzid@gmail.com">salma.bouzid@gmail.com</a></td>
+<td>password123</td>
+</tr>
+<tr>
+<td>Customer</td>
+<td><a href="mailto:karim.trabelsi@outlook.com">karim.trabelsi@outlook.com</a></td>
+<td>password123</td>
+</tr>
+<tr>
+<td>Customer</td>
+<td><a href="mailto:lucas.martin@gmail.com">lucas.martin@gmail.com</a></td>
+<td>password123</td>
+</tr>
+<tr>
+<td>Customer</td>
+<td><a href="mailto:yasmine.mansouri@gmail.com">yasmine.mansouri@gmail.com</a></td>
+<td>password123</td>
+</tr>
+</tbody></table>
+<hr>
+<p><em>Document generated for the MERN E-commerce project. See <code>README.md</code> in the repository root for the short-form version.</em></p>
+
+</body>
+</html>
